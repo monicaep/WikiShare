@@ -24,7 +24,7 @@ module.exports = {
       else {
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
         const msg = {
-          to: newUser.email,
+          to: req.body.email,
           from: 'mep823@gmail.com',
           subject: 'Thanks for signing up for Blocipedia',
           text: 'Hope you enjoy',
@@ -38,5 +38,28 @@ module.exports = {
         });
       }
     });
+  },
+
+  signInForm(req, res, next) {
+    res.render("users/sign_in");
+  },
+
+  signIn(req, res, next) {
+    passport.authenticate("local")(req, res, function () {
+      if(!req.user) {
+        req.flash("notice", "Sign in failed. Please try again.");
+        res.redirect("/users/sign_in");
+      }
+      else {
+        req.flash("notice", "You've successfully signed in.");
+        res.redirect("/");
+      }
+    });
+  },
+
+  signOut(req, res, next) {
+    req.logout();
+    req.flash("notice", "You've successfully signed out.");
+    res.redirect("/");
   }
 }
