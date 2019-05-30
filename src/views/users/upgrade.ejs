@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <% include ../static/partials/head.ejs %>
+
+  </head>
+  <body>
+
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="container">
+      <h1>Upgrade to a Premium Membership</h1>
+      <div class="container-fluid">
+        <p>Upgrading to a premium membership let's you create private wikis, giving you complete
+          control over your wiki! You can keep it completely private or add and remove collaborators
+          as you please.</p>
+          <!-- Create a button that your customers click to complete their purchase. Customize the styling to suit your branding. -->
+          <button
+          type="button" class="btn btn-primary btn-lg btn-block"
+          id="checkout-button-plan_F9zhP5ZQpjeYQ6"
+          role="link"
+          >
+          Upgrade to Premium
+        </button>
+      </div>
+    <small class="muted-text">Premium memberships are charged a recurring payment of $15/month.</small>
+
+    <div id="error-message"></div>
+      </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+
+    <script>
+      var stripe = Stripe('pk_test_Ut6fVyCwufV5OoCUN0kwh6id00lattu19B');
+
+      var checkoutButton = document.getElementById('checkout-button-plan_F9zhP5ZQpjeYQ6');
+      checkoutButton.addEventListener('click', function () {
+        // When the customer clicks on the button, redirect
+        // them to Checkout.
+        stripe.redirectToCheckout({
+          items: [{plan: 'plan_F9zhP5ZQpjeYQ6', quantity: 1}],
+
+          // Do not rely on the redirect to the successUrl for fulfilling
+          // purchases, customers may not always reach the success_url after
+          // a successful payment.
+          // Instead use one of the strategies described in
+          // https://stripe.com/docs/payments/checkout/fulfillment
+          successUrl: 'http://localhost:3000/users/upgradeSuccess',
+          cancelUrl: 'http://localhost:3000/users/downgradeSuccess',
+        })
+        .then(function (result) {
+          if (result.error) {
+            // If `redirectToCheckout` fails due to a browser or network
+            // error, display the localized error message to your customer.
+            var displayError = document.getElementById('error-message');
+            displayError.textContent = result.error.message;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

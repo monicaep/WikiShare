@@ -12,7 +12,7 @@ module.exports = {
     return queryInterface.addColumn(
       "Users",
       "role", {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 0
       }

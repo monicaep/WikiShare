@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <% include ../static/partials/head.ejs %>
+
+  </head>
+  <body>
+
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="container">
+      <h2>Downgrade your account to Standard (free).</h2>
+      <p>With a standard account you will no longer have access to all the awesome
+      features of a Premium account. This means your private wikis will be lost.
+      Are you sure you want to downgrade?</p>
+
+      <form action="/users/downgrade" method="POST">
+        <button type="submit" class="btn btn-danger">Downgrade</button>
+      </form>
+    </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+
+  </body>
+</html>

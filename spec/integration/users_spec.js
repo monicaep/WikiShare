@@ -86,4 +86,42 @@ describe("routes : users", () => {
       });
     });
   });
+
+  describe("GET /users/upgrade", () => {
+    it("should rener a view with an upgrade form", (done) => {
+      request.get(`${base}upgrade`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("Upgrade to a Premium Membership");
+        done();
+      });
+    });
+  });
+
+  describe("POST /users/:id/upgrade", () => {
+    it("should update a user role from standard to premium", (done) => {
+      const options = {
+        url
+      }
+    })
+  })
+
+  describe("GET /users/upgradeSuccess", () => {
+    it("should render a view for successful upgrade", (done) => {
+      request.get(`${base}upgradeSuccess`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("Congratulations!");
+        done();
+      });
+    });
+  });
+
+  describe("GET /users/downgradeSuccess", () => {
+    it("should render a view for successful downgrade", (done) => {
+      request.get(`${base}downgradeSuccess`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("You've successfully downgraded to a standard account!");
+        done();
+      });
+    });
+  });
 });

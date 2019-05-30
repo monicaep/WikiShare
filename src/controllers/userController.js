@@ -1,6 +1,8 @@
 const userQueries = require("../db/queries.users.js");
 const passport = require("passport");
 const sgMail = require("@sendgrid/mail");
+const stripe = require('stripe')(process.env.stripeKey);
+
 
 module.exports = {
   signUp(req, res, next) {
@@ -61,5 +63,58 @@ module.exports = {
     req.logout();
     req.flash("notice", "You've successfully signed out.");
     res.redirect("/");
+  },
+
+  upgradeForm(req, res, next) {
+    res.render("users/upgrade");
+  },
+
+  upgrade(req, res, next) {
+    const token = req.body.stripeToken;
+
+    const charge = stripe.charges.create({
+      amount: 1500,
+      currency: 'usd',
+      description: 'Premium Membership',
+      source: token
+    })
+    .then((charge) => {
+      userQueries.upgradeUser(req.params.id, (err, user) => {
+        if (err || user == null) {
+          res.flash("notice", "Upgrade unsuccessful. Please try again.");
+          res.redirect(400, `/users/upgrade`);
+        }
+        else {
+          res.flash("notice", "You've successfully upgraded to Premium!");
+          res.redirect("users/upgradeSuccess");
+        }
+      })
+    })
+  },
+
+  upgradeSuccess(req, res, next) {
+    res.render("users/upgradeSuccess");
+  },
+
+  downgradeForm(req, res, next) {
+    res.render("users/downgrade");
+  },
+
+  downgrade(req, res, next) {
+    userQueries.downgradeUser(req.params.id, (err, user) => {
+      if (err || user == null) {
+        console.log(err);
+        res.flash("notice", "Downgrade unsuccessful. Please try again.");
+        res.redirect(400, `/users/downgrade`);
+      }
+      else {
+        res.flash("notice", "You've successfully downgraded to Standard.");
+        res.redirect("users/downgradeSuccess");
+      }
+    })
+  },
+
+  downgradeSuccess(req, res, next) {
+    res.render("users/downgradeSuccess");
   }
 }
