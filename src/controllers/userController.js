@@ -1,7 +1,7 @@
 const userQueries = require("../db/queries.users.js");
 const passport = require("passport");
 const sgMail = require("@sendgrid/mail");
-const stripe = require('stripe')(process.env.stripeKey);
+const stripe = require('stripe')(process.env.stripe_secret);
 
 
 module.exports = {
@@ -42,6 +42,17 @@ module.exports = {
     });
   },
 
+  show(req, res, next) {
+    userQueries.getUser(req.params.id, (err, user) => {
+      if(err || user == null) {
+        res.redirect(404, "/");
+      }
+      else {
+        res.render("users/show", {user})
+      }
+    });
+  },
+
   signInForm(req, res, next) {
     res.render("users/sign_in");
   },
@@ -66,10 +77,11 @@ module.exports = {
   },
 
   upgradeForm(req, res, next) {
-    res.render("users/upgrade");
+    res.render("users/upgradeForm");
   },
 
-  upgrade(req, res, next) {
+  /*upgrade(req, res, next) {
+    console.log(5);
     const token = req.body.stripeToken;
 
     const charge = stripe.charges.create({
@@ -79,17 +91,54 @@ module.exports = {
       source: token
     })
     .then((charge) => {
+      console.log(4);
       userQueries.upgradeUser(req.params.id, (err, user) => {
         if (err || user == null) {
-          res.flash("notice", "Upgrade unsuccessful. Please try again.");
+          console.log(3);
+          req.flash("notice", "Upgrade unsuccessful. Please try again.");
           res.redirect(400, `/users/upgrade`);
         }
         else {
-          res.flash("notice", "You've successfully upgraded to Premium!");
+          console.log(err);
+          console.log(2);
+          req.flash("notice", "You've successfully upgraded to Premium!");
+          console.log(req.params);
+          console.log(1);
           res.redirect("users/upgradeSuccess");
+          console.log(0);
         }
       })
     })
+  },*/
+  /*upgrade(req, res, next) {
+    userQueries.getUser(req.params.id, (err, user) => {
+      if(err || user == null) {
+        res.redirect(404, "/");
+      }
+      else {
+        res.render("users/upgradeSuccess");
+      }
+    });
+  },*/
+
+  upgrade(req, res, next) {
+    const token = req.body.stripeToken;
+    const charge = stripe.charges.create({
+      amount: parseInt(process.env.stripe_cost, 10),
+      currency: process.env.stripe_ccy,
+      source: token,
+      description: "Premium Membership",
+    });
+    userQueries.upgradeUser(req.params.id, (err, user) => {
+      if(err || user == null) {
+        req.flash("notice", "Upgrade unsuccessful. Please try again.");
+        res.redirect("/users/upgradeForm");
+      }
+      else {
+        req.flash("notice", "You've successfully upgraded to Premium!");
+        res.render("users/upgradeSuccess");
+      }
+    });
   },
 
   upgradeSuccess(req, res, next) {
@@ -97,22 +146,31 @@ module.exports = {
   },
 
   downgradeForm(req, res, next) {
-    res.render("users/downgrade");
+    res.render("users/downgradeForm");
   },
 
   downgrade(req, res, next) {
     userQueries.downgradeUser(req.params.id, (err, user) => {
       if (err || user == null) {
-        console.log(err);
-        res.flash("notice", "Downgrade unsuccessful. Please try again.");
-        res.redirect(400, `/users/downgrade`);
+        req.flash("notice", "Downgrade unsuccessful. Please try again.");
+        res.redirect(400, `/users/downgradeForm`);
       }
       else {
-        res.flash("notice", "You've successfully downgraded to Standard.");
-        res.redirect("users/downgradeSuccess");
+        req.flash("notice", "You've successfully downgraded to Standard.");
+        res.render("users/downgradeSuccess");
       }
     })
   },
+  /*downgrade(req, res, next) {
+    userQueries.getUser(req.params.id, (err, user) => {
+      if(err || user == null) {
+        res.redirect(404, "/");
+      }
+      else {
+        res.render("users/downgradeSuccess");
+      }
+    });
+  },*/
 
   downgradeSuccess(req, res, next) {
     res.render("users/downgradeSuccess");

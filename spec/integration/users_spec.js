@@ -6,13 +6,22 @@ const User = require("../../src/db/models").User;
 
 describe("routes : users", () => {
   beforeEach((done) => {
-    sequelize.sync({force: true})
-    .then(() => {
-      done();
-    })
-    .catch((err) => {
-      console.log(err);
-      done();
+    this.user;
+    sequelize.sync({force: true}).then((res) =>{
+
+      User.create({
+        username: "exampleUser1",
+        email: "exampleUser@example.com",
+        password: "123456"
+      })
+      .then((user) => {
+        this.user = user;
+        done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done();
+      });
     });
   });
 
@@ -42,7 +51,7 @@ describe("routes : users", () => {
           expect(user).not.toBeNull();
           expect(user.username).toBe("CoolCat55")
           expect(user.email).toBe("user@example.com");
-          expect(user.id).toBe(1);
+          expect(user.id).toBe(2);
           done();
         })
         .catch((err) => {
@@ -87,6 +96,16 @@ describe("routes : users", () => {
     });
   });
 
+  describe("GET /users/:id", () => {
+    it("should render a view with a user profile", (done) => {
+      request.get(`${base}${this.user.id}`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("Profile");
+        done();
+      });
+    });
+  });
+
   describe("GET /users/upgrade", () => {
     it("should rener a view with an upgrade form", (done) => {
       request.get(`${base}upgrade`, (err, res, body) => {
@@ -100,10 +119,23 @@ describe("routes : users", () => {
   describe("POST /users/:id/upgrade", () => {
     it("should update a user role from standard to premium", (done) => {
       const options = {
-        url
-      }
-    })
-  })
+        url: `${base}${this.user.id}/upgrade`,
+        form: {
+          role: 1
+        }
+      };
+      request.post(options, (err, res, body) => {
+        expect(err).toBeNull();
+        User.findOne({
+          where: { id: this.user.id }
+        })
+        .then((user) => {
+          expect(user.role).toBe(1);
+          done();
+        });
+      });
+    });
+  });
 
   describe("GET /users/upgradeSuccess", () => {
     it("should render a view for successful upgrade", (done) => {

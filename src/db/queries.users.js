@@ -19,6 +19,20 @@ module.exports = {
     })
   },
 
+  getUser(id, callback) {
+    return User.findOne({
+      where: {
+        id: id
+      }
+    })
+    .then((user) => {
+      callback(null, user);
+    })
+    .catch((err) => {
+      callback(err);
+    })
+  },
+
   upgradeUser(id, callback) {
     return User.findById(id)
     .then((user) => {
@@ -26,10 +40,10 @@ module.exports = {
         return callback("User not found");
       }
       else {
-        return user.update({
+        user.update({
           role: 1
         })
-        .then(() => {
+        .then((user) => {
           callback(null, user);
         })
         .catch((err) => {
@@ -49,7 +63,7 @@ module.exports = {
         user.update({
           role: 0
         })
-        .then(() => {
+        .then((user) => {
           callback(null, user);
         })
         .catch((err) => {
@@ -58,4 +72,22 @@ module.exports = {
       }
     });
   }
+  /*upgradeUser(id, callback) {
+    return User.findById(id)
+    .then((user) => {
+      if(!user) {
+        return callback("User not found");
+      }
+
+      user.update({
+        role: 1
+      })
+      .then(() => {
+        callback(null, user);
+      })
+      .catch((err) => {
+        callback(err);
+      });
+    });
+  },*/
 }

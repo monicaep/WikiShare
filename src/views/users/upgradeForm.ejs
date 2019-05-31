@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <% include ../static/partials/head.ejs %>
+
+  </head>
+  <body>
+
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="container">
+
+      <% include ../static/partials/messages.ejs %>
+
+      <h1>Upgrade to a Premium Membership</h1>
+      <div class="container-fluid">
+        <p>Upgrading to a premium membership let's you create private wikis, giving you complete
+          control over your wiki! You can keep it completely private or add and remove collaborators
+          as you please.</p>
+          <form action="/users/<%= currentUser.id %>/upgrade" method ="POST">
+            <script
+              src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+              data-key="pk_test_Ut6fVyCwufV5OoCUN0kwh6id00lattu19B"
+              data-amount="1500"
+              data-currency+"USD"
+              data-description="Premium Membership"
+              data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+              data-locale="auto">
+            </script>
+          </form>
+      </div>
+    <small class="muted-text">Premium memberships are charged a recurring payment of $15/month.</small>
+    </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+
+  </body>
+</html>

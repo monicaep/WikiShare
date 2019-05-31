@@ -77,7 +77,7 @@ describe("User", () => {
     });
   });
 
-  describe("#upgrade()", () => {
+  /*describe("#upgrade()", () => {
     it("should upgrade a user's role from standard to premium", (done) => {
       User.create({
         username: "CoolCat55",
@@ -116,5 +116,5 @@ describe("User", () => {
         done();
       });
     });
-  });
+  });*/
 });
