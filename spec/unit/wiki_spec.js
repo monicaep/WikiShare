@@ -1,17 +1,17 @@
 const sequelize = require("../../src/db/models/index").sequelize;
-const User = require("../../src/db/models").User;
 const Wiki = require("../../src/db/models").Wiki;
+const User = require("../../src/db/models").User;
 
 describe("Wiki", () => {
   beforeEach((done) => {
-    this.user;
     this.wiki;
+    this.user;
 
     sequelize.sync({force: true}).then((res) => {
       User.create({
         username: "user01",
         email: "user01@example.com",
-        password: "123456"
+        password: "password"
       })
       .then((user) => {
         this.user = user;
@@ -23,10 +23,6 @@ describe("Wiki", () => {
         })
         .then((wiki) => {
           this.wiki = wiki;
-          done();
-        })
-        .catch((err) => {
-          console.log(err);
           done();
         });
       });
@@ -43,6 +39,7 @@ describe("Wiki", () => {
       .then((wiki) => {
         expect(wiki.title).toBe("Dogs");
         expect(wiki.body).toBe("There are over 300 breeds.");
+        expect(wiki.userId).toBe(this.user.id);
         done();
       })
       .catch((err) => {

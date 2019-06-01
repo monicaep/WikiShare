@@ -14,7 +14,7 @@ module.exports = {
       "role", {
         type: Sequelize.INTEGER,
         allowNull: false,
-        defaultValue: 0
+        defaultValue: 0 // standard = 0; premium = 1; admin = 2
       }
     );
   },

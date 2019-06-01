@@ -1,4 +1,5 @@
 const userQueries = require("../db/queries.users.js");
+const wikiQueries = require("../db/queries.wikis.js");
 const passport = require("passport");
 const sgMail = require("@sendgrid/mail");
 const stripe = require('stripe')(process.env.stripe_secret);
@@ -80,47 +81,6 @@ module.exports = {
     res.render("users/upgradeForm");
   },
 
-  /*upgrade(req, res, next) {
-    console.log(5);
-    const token = req.body.stripeToken;
-
-    const charge = stripe.charges.create({
-      amount: 1500,
-      currency: 'usd',
-      description: 'Premium Membership',
-      source: token
-    })
-    .then((charge) => {
-      console.log(4);
-      userQueries.upgradeUser(req.params.id, (err, user) => {
-        if (err || user == null) {
-          console.log(3);
-          req.flash("notice", "Upgrade unsuccessful. Please try again.");
-          res.redirect(400, `/users/upgrade`);
-        }
-        else {
-          console.log(err);
-          console.log(2);
-          req.flash("notice", "You've successfully upgraded to Premium!");
-          console.log(req.params);
-          console.log(1);
-          res.redirect("users/upgradeSuccess");
-          console.log(0);
-        }
-      })
-    })
-  },*/
-  /*upgrade(req, res, next) {
-    userQueries.getUser(req.params.id, (err, user) => {
-      if(err || user == null) {
-        res.redirect(404, "/");
-      }
-      else {
-        res.render("users/upgradeSuccess");
-      }
-    });
-  },*/
-
   upgrade(req, res, next) {
     const token = req.body.stripeToken;
     const charge = stripe.charges.create({
@@ -160,17 +120,10 @@ module.exports = {
         res.render("users/downgradeSuccess");
       }
     })
+    wikiQueries.makeAllWikisPublic(req.params.id, (err, user) => {
+      req.flash("notice", "All private wikis are now public");
+    })
   },
-  /*downgrade(req, res, next) {
-    userQueries.getUser(req.params.id, (err, user) => {
-      if(err || user == null) {
-        res.redirect(404, "/");
-      }
-      else {
-        res.render("users/downgradeSuccess");
-      }
-    });
-  },*/
 
   downgradeSuccess(req, res, next) {
     res.render("users/downgradeSuccess");

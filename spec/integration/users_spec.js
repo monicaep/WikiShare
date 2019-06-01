@@ -106,16 +106,6 @@ describe("routes : users", () => {
     });
   });
 
-  describe("GET /users/upgrade", () => {
-    it("should rener a view with an upgrade form", (done) => {
-      request.get(`${base}upgrade`, (err, res, body) => {
-        expect(err).toBeNull();
-        expect(body).toContain("Upgrade to a Premium Membership");
-        done();
-      });
-    });
-  });
-
   describe("POST /users/:id/upgrade", () => {
     it("should update a user role from standard to premium", (done) => {
       const options = {
@@ -137,22 +127,23 @@ describe("routes : users", () => {
     });
   });
 
-  describe("GET /users/upgradeSuccess", () => {
-    it("should render a view for successful upgrade", (done) => {
-      request.get(`${base}upgradeSuccess`, (err, res, body) => {
+  describe("POST /users/:id/downgrade", () => {
+    it("should update a user role from premium to standard", (done) => {
+      const options = {
+        url: `${base}${this.user.id}/downgrade`,
+        form: {
+          role: 0
+        }
+      };
+      request.post(options, (err, res, body) => {
         expect(err).toBeNull();
-        expect(body).toContain("Congratulations!");
-        done();
-      });
-    });
-  });
-
-  describe("GET /users/downgradeSuccess", () => {
-    it("should render a view for successful downgrade", (done) => {
-      request.get(`${base}downgradeSuccess`, (err, res, body) => {
-        expect(err).toBeNull();
-        expect(body).toContain("You've successfully downgraded to a standard account!");
-        done();
+        User.findOne({
+          where: { id: this.user.id }
+        })
+        .then((user) => {
+          expect(user.role).toBe(0);
+          done();
+        });
       });
     });
   });

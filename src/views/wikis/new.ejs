@@ -21,7 +21,14 @@
             <label for="body">Body</label>
             <textarea rows="15" class="form-control" name="body" placeholder="Enter body"></textarea>
         </div>
+        <% if(currentUser.role == 1 || currentUser.role == 2) { %>
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="form-control" name="private" aria-describedby="privateHelp" value="true">
+              <label for="private" >Private</label>
+            </div>
+        <% } %>
         <button type="submit" class="btn btn-primary">Submit</button>
+
       </form>
     </main>
 
