@@ -2,6 +2,7 @@ const wikiQueries = require("../db/queries.wikis.js");
 const PrivateAuthorizer = require("../policies/privateWiki");
 const Authorizer = require("../policies/application.js");
 const PremiumAuthorizer = require("../policies/privateWiki.js");
+const markdown = require("markdown").markdown;
 
 module.exports = {
   index(req, res, next) {
@@ -59,6 +60,7 @@ module.exports = {
         res.redirect(404, "/");
       }
       else {
+        wiki.body = markdown.toHTML(wiki.body);
         res.render("wikis/show", {wiki});
       }
     });

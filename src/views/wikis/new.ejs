@@ -20,6 +20,7 @@
           <label class="form-group">
             <label for="body">Body</label>
             <textarea rows="15" class="form-control" name="body" placeholder="Enter body"></textarea>
+            <small class="muted-text">Editor is compatible with Markdown syntax.</small>
         </div>
         <% if(currentUser.role == 1 || currentUser.role == 2) { %>
             <div class="custom-control custom-switch">
