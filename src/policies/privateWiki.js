@@ -1,6 +1,7 @@
 const ApplicationPolicy = require("./application");
 
 module.exports = class PrivateWikiPolicy extends ApplicationPolicy {
+
   new() {
     return this.user._isPremium() || this.user._isAdmin();
   }
@@ -10,11 +11,11 @@ module.exports = class PrivateWikiPolicy extends ApplicationPolicy {
   }
 
   show() {
-    return this.new();
+    return this.user._isOwner() || this.user._isCollaborator() || this.user._isAdmin();
   }
 
   edit() {
-    return this.new() && this.record && (this._isOwner() || this._isAdmin());
+    return this.record && this.show();
   }
 
   update() {
@@ -22,10 +23,10 @@ module.exports = class PrivateWikiPolicy extends ApplicationPolicy {
   }
 
   destroy() {
-    return this.update();
+    return this.user._isOwner() || this.user._isAdmin();
   }
 
   toggle() {
-    return (this.user._isPremium() && this.user._isOwner()) || this.user._isAdmin()
+    return (this.user._isPremium() && (this.user._isOwner()) || this.user._isAdmin());
   }
 }

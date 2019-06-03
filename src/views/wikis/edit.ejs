@@ -23,6 +23,16 @@
         <small class="muted-text">Editor is compatible with Markdown syntax.</small>
         <button type="submit" class="btn btn-primary">Update</button>
       </form>
+      <section id="collaborator-form">
+        <% if (wiki.private == true && (wiki.userId == currentUser.id || currentUser.role == 2)) { %>
+          <form action="/wikis/<%= wiki.id %>/collaborators/create" method="post">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" name="username" placeholder="Username">
+              <button type="submit" class="btn btn-primary">Add Collaborator</button>
+            </div>
+          </form>
+        <% } %>
+      </section>
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>
