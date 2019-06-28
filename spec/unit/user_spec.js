@@ -76,45 +76,4 @@ describe("User", () => {
       });
     });
   });
-
-  /*describe("#upgrade()", () => {
-    it("should upgrade a user's role from standard to premium", (done) => {
-      User.create({
-        username: "CoolCat55",
-        email: "user@example.com",
-        password: "password"
-      })
-      .then((user) => {
-        user.upgrade() => {
-          expect(user.role).toBe(1);
-          done();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        done();
-      });
-    });
-  });
-
-  describe("#downgrade()", () => {
-    it("should downgrade a user's role from premium to standard", (done) => {
-      User.create({
-        username: "UserDude",
-        email: "example@example.com",
-        password: "password",
-        role: 1
-      })
-      .then((user) => {
-        user.downgrade() => {
-          expect(user.role).toBe(0);
-          done();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        done();
-      });
-    });
-  });*/
 });

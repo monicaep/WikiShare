@@ -72,22 +72,4 @@ module.exports = {
       }
     });
   }
-  /*upgradeUser(id, callback) {
-    return User.findById(id)
-    .then((user) => {
-      if(!user) {
-        return callback("User not found");
-      }
-
-      user.update({
-        role: 1
-      })
-      .then(() => {
-        callback(null, user);
-      })
-      .catch((err) => {
-        callback(err);
-      });
-    });
-  },*/
 }

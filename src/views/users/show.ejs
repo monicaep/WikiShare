@@ -18,7 +18,7 @@
       <p>Email: <%= currentUser.email %></p>
       <% if (currentUser.role == 0) { %>
         <p>You currently have a standard account. Upgrade to premium to unlock
-        some awesome features</p>
+        some awesome features!</p>
         <a href="/users/<%= currentUser.id %>/upgradeForm" class="btn btn-primary">Upgrade</a>
       <% } else { %>
         <p>You are currently signed up for the premium membership. Click here to

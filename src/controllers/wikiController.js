@@ -18,66 +18,6 @@ module.exports = {
       }
     })
   },
-  /*index(req, res, next) {
-    wikiQueries.getAllWikis((err, wikis) => {
-      if(err) {
-        console.log(err);
-        res.redirect(500, "static/index");
-      }
-      else {
-        wikis.forEach((wiki) => {
-          if(wiki.private == true) {
-            const authorized = new PrivateAuthorizer(req.user).show();
-
-            if(authorized) {
-              res.render("wikis/index", {wiki});
-            }
-          }
-          else {
-            res.render("wikis/index", {wiki});
-          }
-        })
-        //const authorizer = new Authorizer(req.user).show();
-        const authorizer = new PrivateAuthorizer(req.user).show();
-
-        wikis.forEach((wiki) => {
-          if(wiki.private == true) {
-            if (authorized) {
-              res.render("wikis/index", {wiki});
-            }
-          }
-          else {
-            res.render("wikis/index", {wiki});
-          }
-        })
-      }
-    })
-  },*/
-
-  /*index(req, res, next) {
-    wikiQueries.getAllWikis((err, wikis) => {
-      if(err) {
-        res.redirect(500, "static/index");
-      }
-      else {
-        let displayWikis = [];
-        let privateWikis = [];
-        for (let i = 0; i < wikis.length; i++) {
-          if (wikis[i].private == true) {
-            privateWikis.push(wikis[i]);
-          }
-          else {
-            displayWikis.push(wikis[i]);
-          }
-        };
-        for (let i = 0; i < privateWikis.length; i++) {
-          if (privateWikis[i].collaborators.username == req.username) {
-            displayWikis
-          }
-        }
-      }
-    })
-  }*/
 
   new(req, res, next) {
     const authorized = new Authorizer(req.user).new();

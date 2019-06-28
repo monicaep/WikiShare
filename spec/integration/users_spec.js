@@ -6,22 +6,13 @@ const User = require("../../src/db/models").User;
 
 describe("routes : users", () => {
   beforeEach((done) => {
-    this.user;
-    sequelize.sync({force: true}).then((res) =>{
-
-      User.create({
-        username: "exampleUser1",
-        email: "exampleUser@example.com",
-        password: "123456"
-      })
-      .then((user) => {
-        this.user = user;
-        done();
-      })
-      .catch((err) => {
-        console.log(err);
-        done();
-      });
+    sequelize.sync({ force: true })
+    .then(() => {
+      done();
+    })
+    .catch((err) => {
+      console.log(err);
+      done();
     });
   });
 
@@ -29,7 +20,7 @@ describe("routes : users", () => {
     it("should render a view with a sign up form", (done) => {
       request.get(`${base}sign_up`, (err, res, body) => {
         expect(err).toBeNull();
-        expect(body).toContain("Welcome to Blocipedia")
+        expect(body).toContain("Welcome to WikiShare")
         done();
       });
     });
@@ -51,7 +42,7 @@ describe("routes : users", () => {
           expect(user).not.toBeNull();
           expect(user.username).toBe("CoolCat55")
           expect(user.email).toBe("user@example.com");
-          expect(user.id).toBe(2);
+          expect(user.id).toBe(1);
           done();
         })
         .catch((err) => {
@@ -98,50 +89,15 @@ describe("routes : users", () => {
 
   describe("GET /users/:id", () => {
     it("should render a view with a user profile", (done) => {
-      request.get(`${base}${this.user.id}`, (err, res, body) => {
-        expect(err).toBeNull();
-        expect(body).toContain("Profile");
-        done();
-      });
-    });
-  });
-
-  describe("POST /users/:id/upgrade", () => {
-    it("should update a user role from standard to premium", (done) => {
-      const options = {
-        url: `${base}${this.user.id}/upgrade`,
-        form: {
-          role: 1
-        }
-      };
-      request.post(options, (err, res, body) => {
-        expect(err).toBeNull();
-        User.findOne({
-          where: { id: this.user.id }
-        })
-        .then((user) => {
-          expect(user.role).toBe(1);
-          done();
-        });
-      });
-    });
-  });
-
-  describe("POST /users/:id/downgrade", () => {
-    it("should update a user role from premium to standard", (done) => {
-      const options = {
-        url: `${base}${this.user.id}/downgrade`,
-        form: {
-          role: 0
-        }
-      };
-      request.post(options, (err, res, body) => {
-        expect(err).toBeNull();
-        User.findOne({
-          where: { id: this.user.id }
-        })
-        .then((user) => {
-          expect(user.role).toBe(0);
+      User.create({
+        username: "UserOne",
+        email: "example@example.com",
+        password: "123456"
+      })
+      .then((user) => {
+        request.get(`${base}${user.id}`, (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).toContain("Profile");
           done();
         });
       });

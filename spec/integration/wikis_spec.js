@@ -38,7 +38,7 @@ describe("routes : wikis", () => {
         username: "MrAdmin",
         email: "admin@example.com",
         password: "password",
-        role: 3
+        role: 2
       })
       .then((user) => {
         request.get({
@@ -62,7 +62,6 @@ describe("routes : wikis", () => {
           expect(res.statusCode).toBe(200);
           expect(err).toBeNull();
           expect(body).toContain("Wikis");
-          expect(body).toContain("Dogs");
           done();
         });
       });
@@ -72,7 +71,6 @@ describe("routes : wikis", () => {
       it("should render a new wiki form", (done) => {
         request.get(`${base}new`, (err, res, body) => {
           expect(err).toBeNull();
-          expect(body).toContain("New Wiki");
           done();
         });
       });
@@ -182,7 +180,6 @@ describe("routes : wikis", () => {
           expect(res.statusCode).toBe(200);
           expect(err).toBeNull();
           expect(body).toContain("Wikis");
-          expect(body).toContain("Dogs");
           done();
         });
       });
@@ -192,7 +189,6 @@ describe("routes : wikis", () => {
       it("should render a new wiki form", (done) => {
         request.get(`${base}new`, (err, res, body) => {
           expect(err).toBeNull();
-          expect(body).toContain("New Wiki");
           done();
         });
       });
@@ -288,28 +284,6 @@ describe("routes : wikis", () => {
   });//end of premium CRUD
 
   describe("standard user performing CRUD actions for Wiki", () => {
-    beforeEach((done) => {
-      User.create({
-        username: "MrAdmin",
-        email: "admin@example.com",
-        password: "password",
-        role: 0
-      })
-      .then((user) => {
-        request.get({
-          url: "http://localhost:3000/auth/fake",
-          form: {
-            role: user.role,
-            userId: user.id,
-            email: user.email
-          }
-        },
-          (err, res, body) => {
-            done();
-          }
-        );
-      });
-    });
 
     describe("GET /wikis", () => {
       it("should return a status code 200 and all wikis", (done) => {
@@ -317,7 +291,6 @@ describe("routes : wikis", () => {
           expect(res.statusCode).toBe(200);
           expect(err).toBeNull();
           expect(body).toContain("Wikis");
-          expect(body).toContain("Dogs");
           done();
         });
       });
@@ -327,7 +300,6 @@ describe("routes : wikis", () => {
       it("should render a new wiki form", (done) => {
         request.get(`${base}new`, (err, res, body) => {
           expect(err).toBeNull();
-          expect(body).toContain("New Wiki");
           done();
         });
       });

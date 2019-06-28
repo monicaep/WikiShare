@@ -5,26 +5,6 @@ const Authorizer = require("../policies/application.js");
 const PremiumAuthorizer = require("../policies/privateWiki.js");
 
 module.exports = {
-  /*getAllWikis(callback) {
-    return Wiki.findAll()
-    .then((wikis) => {
-      callback(null, wikis);
-    })
-    .catch((err) => {
-      callback(err);
-    })
-  },*/
-
-  /*getAllWikis(callback) {
-    Wiki.findAll()
-    .then(wikis) => {
-      for (let i = 0; i < wikis.length; i++) {
-        if (wikis[i].private == false) {
-          return wikis[i]
-        }
-      }
-    }
-  }*/
   getAllWikis(callback) {
     return Wiki.findAll({
       include: [
