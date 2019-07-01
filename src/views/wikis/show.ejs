@@ -13,13 +13,19 @@
 
       <% include ../static/partials/messages.ejs %>
 
-      <h1><%= wiki.title %></h1>
-      <% if(currentUser) { %>
-        <a href="/wikis/<%= wiki.id %>/edit" class="btn btn-warning">Edit</a>
-        <form style="display:initial" action="/wikis/<%= wiki.id %>/destroy" method="POST">
-          <button type="submit" class="btn btn-danger">Delete</button>
-        </form>
-      <% } %>
+      <div class="row">
+        <div class="col-10 align-self-center">
+          <h1><%= wiki.title %></h1>
+        </div>
+        <div class="col-2 align-self-center">
+          <% if(currentUser) { %>
+            <a href="/wikis/<%= wiki.id %>/edit" class="btn btn-warning btn-block">Edit</a>
+            <form style="display:initial" action="/wikis/<%= wiki.id %>/destroy" method="POST">
+              <button type="submit" class="btn btn-danger btn-block">Delete</button>
+            </form>
+          <% } %>
+        </div>
+      </div>
       <div class="row">
         <div class="col-8">
           <p><%- wiki.body %></p>
@@ -30,8 +36,15 @@
             <ul class="list-group">
               <% wiki.collaborators.forEach((collaborator) => { %>
                 <form style="display:initial" action="/wikis/<%= wiki.id %>/collaborators/<%= collaborator.id %>/destroy" method="POST">
-                  <li class="list-group-item"><%= collaborator.username %>
-                  <button type="submit" class="btn btn-danger">Remove</button>
+                  <li class="list-group-item">
+                    <div class="row">
+                      <div class="col align-self-center">
+                        <h6><%= collaborator.username %></h6>
+                      </div>
+                      <div class="col text-right">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Remove</button>
+                      </div>
+                    </div>
                   </li>
                 </form>
               <% }) %>

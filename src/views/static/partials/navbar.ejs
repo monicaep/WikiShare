@@ -23,7 +23,7 @@
         </li>
         <% if(currentUser) { %>
           <li class="nav-item">
-            <a class="nav-link" href="users/<%= currentUser.id %>">Profile</a>
+            <a class="nav-link" href="/users/<%= currentUser.id %>">Profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/users/sign_out">Sign out</a>
@@ -31,10 +31,6 @@
           <% if (currentUser.role == 0) { %>
             <li class="nav-item">
               <a class="nav-link" href="/users/<%= currentUser.id %>/upgradeForm">Upgrade</a>
-            </li>
-          <% } else { %>
-            <li class="nav-item">
-              <a class="nav-link" href="/users/<%= currentUser.id %>/downgradeForm">Downgrade</a>
             </li>
           <% } %>
         <% } else { %>
