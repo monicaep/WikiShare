@@ -5,7 +5,7 @@
     <% include ../static/partials/head.ejs %>
 
   </head>
-  <body>
+  <body class="text-center">
 
     <% include ../static/partials/navbar.ejs %>
 
@@ -13,22 +13,26 @@
 
       <% include ../static/partials/messages.ejs %>
 
-      <h1>Sign In</h1>
+      <div class="row justify-content-center">
+        <div class="col-align-self-center">
+          <form class="form-signin" action="/users/sign_in" method="POST">
+            <h1>Sign In</h1>
+            <div class="sign-in-form">
+              <label for="email" class="sr-only">Email</label>
+              <input type="email" class="form-control" name="email" placeholder="Email" required="" autofocus="">
+              <label for="password" class="sr-only">Password</label>
+              <input type="password" class="form-control" name="password" placeholder="Password" required="">
+            </div>
+            <div class="sign-in-button">
+              <button type="submit" class="btn btn-lg btn-primary btn-block">Sign in</button>
+            </div>
+          </form>
+        </div>
+      </div>
 
-      <form action="/users/sign_in" method="POST">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter email">
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" class="form=control" name="password" aria-describedby="passwordHelp" placeholder="Enter password">
-        </div>
-        <button type="submit" class="btn btn-outline-primary">Sign in</button>
-      </form>
     </main>
 
-    <% include ../static/partials/baseScripts.ejs %>
+        <% include ../static/partials/baseScripts.ejs %>
 
   </body>
 </html>

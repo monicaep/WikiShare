@@ -13,6 +13,7 @@ module.exports = {
         req.flash("notice", "There was an error processing your request.");
       }
       else {
+          req.flash("notice", "Collaborator added.");
           res.redirect(req.headers.referer);
       }
     });

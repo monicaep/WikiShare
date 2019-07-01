@@ -10,19 +10,27 @@
     <% include ../static/partials/navbar.ejs %>
 
     <main class="container">
-      <h1>Edit Wiki</h1>
       <form action="/wikis/<%= wiki.id %>/update" method="post">
-        <div class="form-group">
-          <label for="title">Wiki title</label>
-          <input value="<%= wiki.title %>" type="text" class="form-control" name="title" aria-describedby="titleHelp" placeholder="Enter Title">
+        <div class="row">
+          <div class="col-10 align-self-center">
+            <h1>Edit Wiki</h1>
+          </div>
+          <div class="col-2 align-self-center">
+            <button type="submit" class="btn btn-primary btn-block">Update</button>
+          </div>
+        </div>
+          <div class="form-group">
+            <label for="title">Wiki title</label>
+            <input value="<%= wiki.title %>" type="text" class="form-control" name="title" aria-describedby="titleHelp" placeholder="Enter Title">
+          </div>
         </div>
         <div class="form-group">
           <label for="body">Body</label>
           <textarea rows="15" class="form-control" name="body" placeholder="Enter Body"><%= wiki.body %></textarea>
+          <small class="muted-text">Style with Markdown.</small>
         </div>
-        <small class="muted-text">Editor is compatible with Markdown syntax.</small>
-        <button type="submit" class="btn btn-primary">Update</button>
       </form>
+
       <section id="collaborator-form">
         <% if (wiki.private == true && (wiki.userId == currentUser.id || currentUser.role == 2)) { %>
           <form action="/wikis/<%= wiki.id %>/collaborators/create" method="post">

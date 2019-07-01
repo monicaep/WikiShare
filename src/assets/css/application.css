@@ -1,3 +1,27 @@
 body {
   padding-top: 54px;
 }
+
+.text-center {
+  align-items: center;
+}
+
+.form-signin {
+  padding-top: 70px;
+}
+
+.sign-in-form {
+  padding-top: 50px;
+}
+
+.sign-in-button {
+  padding-top: 50px;
+}
+
+#profile-info {
+  border-right: 3px solid #d8dad8;
+}
+
+#form {
+  border-right: 3px solid #d8dad8;
+}

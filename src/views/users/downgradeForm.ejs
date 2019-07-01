@@ -13,14 +13,18 @@
 
       <% include ../static/partials/messages.ejs %>
 
-      <h2>Downgrade your account to Standard (free)</h2>
-      <p>With a standard account you will no longer have access to all the awesome
-      features of a Premium account. This means your private wikis will be lost.
-      Are you sure you want to downgrade?</p>
-
-      <form action="/users/<%= currentUser.id %>/downgrade" method="POST">
-        <button type="submit" class="btn btn-danger">Downgrade</button>
-      </form>
+      <div class="row">
+        <div class="col-10" id="form">
+          <h2>Downgrade your account to Standard (free)</h2>
+          <p>With a standard account you will no longer have access to all the awesome
+          features of a Premium account. This also means your private wikis will be lost.
+          Are you sure you want to downgrade?</p>
+        </div>
+        <div class="col-2 align-self-center">
+          <form action="/users/<%= currentUser.id %>/downgrade" method="POST">
+            <button type="submit" class="btn btn-danger">Downgrade</button>
+          </form>
+        </div>
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>

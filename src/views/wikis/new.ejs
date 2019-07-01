@@ -10,26 +10,37 @@
     <% include ../static/partials/navbar.ejs %>
 
     <main class="container">
-      <h1>New Wiki</h1>
       <form action="/wikis/create" method="post">
-        <div class-"form-group">
-          <label for="title">Wiki title</label>
-          <input type="text" class="form-control" name="title" aria-describedby="titleHelp" placeholder="Enter title - must be at least 2 characters in length.">
+        <div class="row">
+          <div class="col-10">
+            <h1>New Wiki</h1>
+          </div>
+          <div class="col-2 align-self-center">
+            <button type="submit" class="btn btn-primary btn-block">Create</button>
+          </div>
         </div>
+        <div class="row">
+          <div class="col-10 align-self-center">
+            <div class-"form-group">
+              <label for="title">Wiki title</label>
+              <input type="text" class="form-control" name="title" aria-describedby="titleHelp" placeholder="Enter title - must be at least 2 characters in length.">
+            </div>
+          </div>
+          <div class="col-2 align-self-center">
+            <% if(currentUser.role == 1 || currentUser.role == 2) { %>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" name="private" aria-describedby="privateHelp" value="true">
+                <label for="private" >Private</label>
+              </div>
+            <% } %>
+          </div>
+        </div>
+
         <div class="form-group">
-          <label class="form-group">
             <label for="body">Body</label>
             <textarea rows="15" class="form-control" name="body" placeholder="Enter body - must be at least 10 characters in length."></textarea>
             <small class="muted-text">Style with Markdown.</small>
         </div>
-        <% if(currentUser.role == 1 || currentUser.role == 2) { %>
-            <div class="custom-control custom-switch">
-              <input type="checkbox" class="form-control" name="private" aria-describedby="privateHelp" value="true">
-              <label for="private" >Private</label>
-            </div>
-        <% } %>
-        <button type="submit" class="btn btn-primary">Submit</button>
-
       </form>
     </main>
 
